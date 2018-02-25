@@ -22,9 +22,6 @@ module.exports = class TelegramBot {
             this.initialized = false;
             this.chatList = [];
             this.bot = new Bot(token, { polling: false });
-            this.chatBot = new Bot(token, { polling: true });
-
-            this.chatBot.on('message', this.listenMessage);
 
             let stackCount = 0;
             const checkStackCount = () => {
@@ -59,7 +56,6 @@ module.exports = class TelegramBot {
             });
             checkStackCount()
         }
-        this.listenMessage = this.listenMessage.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
         this.sendPhoto = this.sendPhoto.bind(this);
         return {
@@ -67,16 +63,6 @@ module.exports = class TelegramBot {
             sendPhoto: this.sendPhoto,
         }
     }
-
-    listenMessage(message) {
-        const { id } = message.from;
-
-        if (telegramId && Number(telegramId) === Number(id)) {
-            // private channel
-            const { text } = message;
-            this.bot.sendMessage(id, '봇 사용 권한이 있는 아이디 입니다.');
-        }
-    };
 
     sendMessage(message) {
         if (typeof message === 'string') {
