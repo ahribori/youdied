@@ -1,0 +1,2 @@
+require('./youdied');
+require('./killChrome');
